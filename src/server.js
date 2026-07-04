@@ -14,6 +14,7 @@ app.use('/api', apiRoutes);
 app.get('/health', (req, res) => res.json({ ok: true }));
 
 app.listen(config.PORT, () => console.log(`🃏 Aether API listening on port ${config.PORT}`));
+app.use('/dashboard', express.static('public/dashboard'));
 
 const bot = createBot();
 if (bot) {
