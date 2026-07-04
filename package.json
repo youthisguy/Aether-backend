@@ -1,0 +1,16 @@
+{
+    "name": "aether",
+    "version": "0.1.0",
+    "description": "Renaiss marketplace watchlist alerts + portfolio dashboard backend",
+    "main": "src/server.js",
+    "scripts": {
+      "start": "node src/server.js",
+      "dev": "node --watch src/server.js"
+    },
+    "dependencies": {
+      "express": "^4.19.2",
+      "cors": "^2.8.5",
+      "telegraf": "^4.16.3",
+      "dotenv": "^17.3.1"
+    }
+  }
