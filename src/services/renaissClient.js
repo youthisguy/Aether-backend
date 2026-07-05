@@ -16,6 +16,7 @@ function runCli(args) {
 
 async function getMarketplaceListingsRaw(opts = {}) {
   const args = ['marketplace', '--json'];
+  if (opts.listed) args.push('--listed');
   if (opts.category) args.push('--category', opts.category);
   if (opts.grading) args.push('--grading', opts.grading);
   if (opts.grade) args.push('--grade', opts.grade);

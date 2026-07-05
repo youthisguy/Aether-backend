@@ -1,4 +1,3 @@
-// priceInUsdt etc. come back as 18-decimal wei-style strings
 function formatWeiString(value, decimals = 18) {
   if (value === undefined || value === null) return null;
   try {
@@ -13,7 +12,6 @@ function formatWeiString(value, decimals = 18) {
   }
 }
 
-// grade is a string like "10 Gem Mint" — extract leading number for comparisons
 function parseGradeNumber(gradeStr) {
   if (!gradeStr) return null;
   const match = String(gradeStr).match(/^(\d+(\.\d+)?)/);
@@ -38,22 +36,25 @@ function normalizeListing(raw) {
   };
 }
 
+// pack fields are in cents, not dollars — confirmed against real site data
+// (raw featuredCardFmvInUsd "443400" == actual $4,434.00)
 function normalizePack(raw) {
   const priceUsdt = formatWeiString(raw.priceInUsdt);
-  const evUsd = raw.expectedValueInUsd ? Number(raw.expectedValueInUsd) : null;
+  const evUsd = raw.expectedValueInUsd ? Number(raw.expectedValueInUsd) / 100 : null;
+  const featuredCardFmvUsd = raw.featuredCardFmvInUsd ? Number(raw.featuredCardFmvInUsd) / 100 : null;
   return {
     slug: raw.slug,
     name: raw.name,
     stage: raw.stage,
     priceUsdt,
     evUsd,
-    featuredCardFmvUsd: raw.featuredCardFmvInUsd ? Number(raw.featuredCardFmvInUsd) : null,
+    featuredCardFmvUsd,
     evRatio: priceUsdt && evUsd ? Number((evUsd / priceUsdt).toFixed(2)) : null,
   };
 }
 
-function formatListingAlertText(listing) {
-  const n = normalizeListing(listing);
+// expects an already-normalized listing (see poller.js) — do not pass raw CLI output here
+function formatListingAlertText(n) {
   return [
     `🆕 New Listing Match`,
     ``,
