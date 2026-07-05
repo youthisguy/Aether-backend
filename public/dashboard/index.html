@@ -96,7 +96,7 @@
       <header class="page-head">
         <div class="eyebrow">Live Market Read</div>
         <h1>Pack Intelligence</h1>
-        <p class="subhead">Know the moment a listing matches your watchlist, and the moment a pack's odds turn in your favor. Personalized marketplace alerts and live pack EV tracking for collectors</p>
+        <p class="subhead">Personalized marketplace alerts and live pack EV tracking for Renaiss collectors.</p>
       </header>
 
       <section class="panel">
@@ -104,7 +104,7 @@
         <div class="connect-bar">
           <input type="text" id="walletInput" placeholder="0x... your wallet address" />
           <button class="btn" id="loadWalletBtn">Load My Alerts</button>
-          <a id="telegramLink" href="#" target="_blank"><button class="btn ghost">Link Telegram</button></a>
+          <a id="telegramLink" href="#" target="_blank"><button class="btn ghost">Link Telegram →</button></a>
         </div>
         <p class="empty-hint" style="margin-top: 10px">Telegram delivery requires linking once via the button above</p>
       </section>
@@ -224,7 +224,7 @@
 
       function renderTicker(packs) {
         const track = document.getElementById("tickerTrack");
-        const items = packs.map((p) => `<span><span class="slug">${p.slug}</span><span class="up">${p.evRatio}x</span></span>`);
+        const items = packs.map((p) => `<span><span class="slug">${p.slug}</span><span class="up">${p.evRatio ?? "—"}x</span></span>`);
         track.innerHTML = items.join("") + items.join("");
       }
 
@@ -252,7 +252,7 @@
         <div class="ratio-label">EV per dollar spent</div>
         <div class="pack-meta">
           <span>PRICE ${p.priceUsdt} USDT</span>
-          <span>EV $${p.evUsd.toLocaleString()}</span>
+          <span>EV $${(p.evUsd || 0).toLocaleString()}</span>
           <span class="top-prize">TOP PRIZE $${(p.featuredCardFmvUsd || 0).toLocaleString()}</span>
         </div>
       </div>
@@ -436,9 +436,17 @@
           fetchJSON("/api/packs/history"),
           fetchJSON("/api/marketplace"),
         ]);
-        if (packs.length) { renderTicker(packs); renderLeaderboard(packs); renderChart(history); }
-        latestMarketplace = marketplace;
-        renderScreener();
+        try {
+          if (packs.length) { renderTicker(packs); renderLeaderboard(packs); renderChart(history); }
+        } catch (err) {
+          console.error("pack section render failed:", err);
+        }
+        try {
+          latestMarketplace = marketplace;
+          renderScreener();
+        } catch (err) {
+          console.error("marketplace screener render failed:", err);
+        }
         document.getElementById("updated").textContent = "updated " + new Date().toLocaleTimeString();
       }
 
