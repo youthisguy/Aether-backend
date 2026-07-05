@@ -41,6 +41,11 @@ router.post('/link-telegram/:wallet', (req, res) => {
 router.get('/packs', (req, res) => res.json(packTracker.getLatestPacks()));
 router.get('/packs/history', (req, res) => res.json(packTracker.getHistory(req.query.slug)));
 
+router.get('/pack-alerts/:wallet', (req, res) => {
+  const entry = store.getWallet(req.params.wallet);
+  res.json(entry ? entry.packAlerts : []);
+});
+
 router.post('/pack-alerts/:wallet', (req, res) => {
   const { slug, aboveRatio } = req.body || {};
   if (!slug || !aboveRatio) return res.status(400).json({ error: 'slug and aboveRatio required' });

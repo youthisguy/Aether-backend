@@ -11,13 +11,20 @@ function createBot() {
 
   const bot = new Telegraf(config.BOT_TOKEN);
 
-  bot.command('start', (ctx) => ctx.replyWithMarkdown(
-    `🃏 *Aether*\n\n` +
-    `\`/link <wallet address>\`\n` +
-    `\`/watchlist add set=<name> grade=<min> price=<max>\`\n` +
-    `\`/packs\`\n` +
-    `\`/packalert <slug> <ratio>\``
-  ));
+  bot.start((ctx) => {
+    const payload = ctx.startPayload;
+    if (payload) {
+      store.linkTelegram(payload, ctx.chat.id);
+      return ctx.replyWithMarkdown(`✅ Linked wallet \`${payload}\` to this chat.\n\nYou'll get alerts here from now on.`);
+    }
+    ctx.replyWithMarkdown(
+      `🃏 *Aether*\n\n` +
+      `\`/link <wallet address>\`\n` +
+      `\`/watchlist add set=<name> grade=<min> price=<max>\`\n` +
+      `\`/packs\`\n` +
+      `\`/packalert <slug> <ratio>\``
+    );
+  });
 
   bot.command('link', (ctx) => {
     const wallet = ctx.message.text.trim().split(/\s+/)[1];
