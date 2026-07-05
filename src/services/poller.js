@@ -1,11 +1,12 @@
 const renaissClient = require('./renaissClient');
 const store = require('./store');
 const notifier = require('./notifier');
+const config = require('../config');
 const { normalizeListing } = require('../utils/format');
 
 let seenTokenIds = new Set();
 let initialized = false;
-let latestSnapshot = [];  
+let latestSnapshot = [];
 
 function matchesWatch(listing, watch) {
   const norm = normalizeListing(listing);
