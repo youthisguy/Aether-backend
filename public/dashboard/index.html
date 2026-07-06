@@ -73,11 +73,27 @@
       .chip.active { border-color: var(--signal); color: var(--signal); }
       .filter-row { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
       .filter-row input { background: var(--ink); border: 1px solid var(--hairline); color: var(--parchment); font-family: "IBM Plex Mono", monospace; font-size: 12px; padding: 8px 10px; border-radius: 8px; width: 140px; }
+      html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
       table { width: 100%; border-collapse: collapse; font-family: "IBM Plex Mono", monospace; font-size: 12px; }
-      th { text-align: left; color: var(--text-dim); font-weight: 500; padding: 8px; border-bottom: 1px solid var(--hairline); cursor: pointer; white-space: nowrap; }
+      th { text-align: left; color: var(--text-dim); font-weight: 500; font-size: 12px; padding: 8px; border-bottom: 1px solid var(--hairline); cursor: pointer; white-space: nowrap; }
       th:hover { color: var(--parchment); }
       td { padding: 8px; border-bottom: 1px solid var(--hairline); white-space: nowrap; }
-      tr:hover td { background: rgba(255, 255, 255, 0.02); }
+      tbody tr:nth-child(even) td { background: rgba(255, 255, 255, 0.035); }
+      tr:hover td { background: rgba(255, 255, 255, 0.07); }
+      @media (max-width: 640px) {
+        .table-wrap { -webkit-overflow-scrolling: touch; }
+        th:first-child, td:first-child {
+          position: sticky;
+          left: 0;
+          z-index: 2;
+          max-width: 130px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          background: #1a1d28;
+        }
+        tbody tr:nth-child(even) td:first-child { background: #20232f; }
+      }
       .below-fmv { color: var(--signal); }
       .above-fmv { color: var(--alert); }
       .table-wrap { overflow-x: auto; }
@@ -343,7 +359,7 @@
           const diffClass = diff === null ? "" : diff < 0 ? "below-fmv" : "above-fmv";
           return `
       <tr>
-        <td>${r.name || "Unknown"}</td>
+        <td title="${r.name || ''}">${r.name || "Unknown"}</td>
         <td>${r.set || "—"}</td>
         <td>${r.grade || "—"}</td>
         <td>${r.askPriceUSDT ?? "—"}</td>
