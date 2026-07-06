@@ -32,12 +32,9 @@ function normalizeListing(raw) {
     gradeNumber: parseGradeNumber(raw.grade),
     gradingCompany: raw.gradingCompany,
     year: raw.year,
-    url: null,
   };
 }
 
-// pack fields are in cents, not dollars — confirmed against real site data
-// (raw featuredCardFmvInUsd "443400" == actual $4,434.00)
 function normalizePack(raw) {
   const priceUsdt = formatWeiString(raw.priceInUsdt);
   const evUsd = raw.expectedValueInUsd ? Number(raw.expectedValueInUsd) / 100 : null;
@@ -53,19 +50,22 @@ function normalizePack(raw) {
   };
 }
 
-// expects an already-normalized listing (see poller.js) — do not pass raw CLI output here
+// expects an already-normalized listing (see poller.js)
 function formatListingAlertText(n) {
+  const cardUrl = n.tokenId ? `https://www.renaiss.xyz/card/${n.tokenId}` : null;
   return [
-    `🆕 New Listing Match`,
+    `🚨 *NEW LISTING MATCH* 🚨`,
+    `━━━━━━━━━━━━━━━━━━`,
     ``,
-    `📇 ${n.name || 'Unknown card'}`,
+    `📇 *${n.name || 'Unknown card'}*`,
     n.set ? `📦 Set: ${n.set}` : null,
-    n.character ? `🎴 ${n.character}` : null,
+    n.character ? `🎴 Character: ${n.character}` : null,
     n.grade ? `🏅 Grade: ${n.grade} (${n.gradingCompany || ''})` : null,
     n.askPriceUSDT !== null ? `💰 Ask: ${n.askPriceUSDT} USDT` : null,
     n.fmvPriceUSD !== null ? `📊 FMV: $${n.fmvPriceUSD}` : null,
+    cardUrl ? `🔗 [View on Renaiss](${cardUrl})` : null,
     ``,
-    `⚠️ Data is approximate and read-only. Always verify before trading.`,
+    `⚠️ _Data is approximate and read-only. Always verify before trading._`,
   ].filter(Boolean).join('\n');
 }
 

@@ -3,6 +3,17 @@ const config = require('../config');
 const store = require('../services/store');
 const packTracker = require('../services/packTracker');
 
+const WELCOME_MESSAGE =
+  `👋 *Welcome to Aether — Renaiss Market Intelligence*\n\n` +
+  `/link <wallet> - Link your wallet to receive alerts here\n` +
+  `/watchlist add set=<name> grade=<min> price=<max> - Add a marketplace alert filter\n` +
+  `/watchlist list - View your active watches\n` +
+  `/watchlist remove <id> - Remove a watch\n` +
+  `/packs - View the live pack EV leaderboard\n` +
+  `/packalert <slug> <ratio> - Alert when a pack's EV ratio crosses a threshold\n\n` +
+  `🙋 Need help? Visit [renaiss.xyz](https://www.renaiss.xyz/) or join the official Discord\n\n` +
+  `❌ No wallet linked yet — use /link to get started.`;
+
 function createBot() {
   if (!config.BOT_TOKEN) {
     console.warn('[telegram] BOT_TOKEN not set — Telegram integration disabled');
@@ -15,15 +26,9 @@ function createBot() {
     const payload = ctx.startPayload;
     if (payload) {
       store.linkTelegram(payload, ctx.chat.id);
-      return ctx.replyWithMarkdown(`✅ Linked wallet \`${payload}\` to this chat.\n\nYou'll get alerts here from now on.`);
+      return ctx.replyWithMarkdown(`✅ Linked wallet \`${payload}\` to this chat.\n\nYou'll get alerts here from now on. Send /packs to see the current leaderboard.`);
     }
-    ctx.replyWithMarkdown(
-      `🃏 *Aether*\n\n` +
-      `\`/link <wallet address>\`\n` +
-      `\`/watchlist add set=<name> grade=<min> price=<max>\`\n` +
-      `\`/packs\`\n` +
-      `\`/packalert <slug> <ratio>\``
-    );
+    ctx.replyWithMarkdown(WELCOME_MESSAGE);
   });
 
   bot.command('link', (ctx) => {
