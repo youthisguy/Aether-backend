@@ -38,6 +38,11 @@ router.post('/link-telegram/:wallet', (req, res) => {
   res.json(store.linkTelegram(req.params.wallet, chatId));
 });
 
+router.get('/telegram-status/:wallet', (req, res) => {
+  const entry = store.getWallet(req.params.wallet);
+  res.json({ linked: !!(entry && entry.telegramChatId) });
+});
+
 router.get('/packs', (req, res) => res.json(packTracker.getLatestPacks()));
 router.get('/packs/history', (req, res) => res.json(packTracker.getHistory(req.query.slug)));
 

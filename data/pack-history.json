@@ -1,0 +1,62 @@
+[
+  {
+    "timestamp": "2026-07-09T15:07:16.590Z",
+    "slug": "eden-pack",
+    "name": "Eden Pack",
+    "stage": "active",
+    "priceUsdt": 150,
+    "evUsd": 155,
+    "featuredCardFmvUsd": 4434,
+    "evRatio": 1.03
+  },
+  {
+    "timestamp": "2026-07-09T15:07:16.590Z",
+    "slug": "omega",
+    "name": "OMEGA",
+    "stage": "active",
+    "priceUsdt": 48,
+    "evUsd": 51.84,
+    "featuredCardFmvUsd": 1532,
+    "evRatio": 1.08
+  },
+  {
+    "timestamp": "2026-07-09T15:07:16.590Z",
+    "slug": "renacrypt-pack",
+    "name": "RenaCrypt Pack",
+    "stage": "active",
+    "priceUsdt": 88,
+    "evUsd": 95,
+    "featuredCardFmvUsd": 2415,
+    "evRatio": 1.08
+  },
+  {
+    "timestamp": "2026-07-09T16:14:04.357Z",
+    "slug": "eden-pack",
+    "name": "Eden Pack",
+    "stage": "active",
+    "priceUsdt": 150,
+    "evUsd": 155,
+    "featuredCardFmvUsd": 4434,
+    "evRatio": 1.03
+  },
+  {
+    "timestamp": "2026-07-09T16:14:04.357Z",
+    "slug": "omega",
+    "name": "OMEGA",
+    "stage": "active",
+    "priceUsdt": 48,
+    "evUsd": 51.84,
+    "featuredCardFmvUsd": 1532,
+    "evRatio": 1.08
+  },
+  {
+    "timestamp": "2026-07-09T16:14:04.357Z",
+    "slug": "renacrypt-pack",
+    "name": "RenaCrypt Pack",
+    "stage": "active",
+    "priceUsdt": 88,
+    "evUsd": 95,
+    "featuredCardFmvUsd": 2415,
+    "evRatio": 1.08
+  }
+]
