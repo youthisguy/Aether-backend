@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aether Scanner: Renaiss market intelligence</title>
-    <link rel="icon" type="image/png" href="aether-l.PNG">
+    <link rel="icon" type="image/png" href="aether-l.PNG" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap"
@@ -13,8 +13,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <style>
       :root {
-        --ink: #0A0C16;
-        --ink-raised: #0A0C16;
+        --ink: #0a0c16;
+        --ink-raised: #0a0c16;
         --parchment: #f9f5ed;
         --brass: #e6c865;
         --signal: #1f574e;
@@ -22,66 +22,359 @@
         --text-dim: #8b8f9e;
         --hairline: #2a2d3a;
       }
-      * { box-sizing: border-box; }
-      body { margin: 0; background: var(--ink); color: var(--parchment); font-family: "Inter", sans-serif; min-height: 100vh; }
-      .ticker { display: flex; overflow: hidden; border-bottom: 1px solid var(--hairline); background: var(--ink-raised); white-space: nowrap; }
-      .ticker-track { display: flex; gap: 48px; padding: 10px 24px; animation: scroll 20s linear infinite; font-family: "IBM Plex Mono", monospace; font-size: 13px; letter-spacing: 0.04em; }
-      .ticker-track span.up { color: var(--signal); }
-      .ticker-track span.slug { color: var(--text-dim); text-transform: uppercase; margin-right: 8px; }
-      @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-      main { max-width: 1080px; margin: 0 auto;  padding: 20px 24px 80px; }
-      header.page-head { margin-bottom: 40px; border-bottom: 1px solid var(--hairline); padding-bottom: 28px; }
-      .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brass); margin-bottom: 12px; }
-      h1 { font-family: "Instrument Serif", serif; font-style: italic; font-size: 42px; font-weight: 400; margin: 0 0 10px; }
-      .subhead { color: var(--text-dim); font-size: 14px; max-width: 560px; line-height: 1.5; }
-      section { margin-bottom: 48px; }
-      .section-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; }
-      .section-head h2 { font-family: "Instrument Serif", serif; font-style: italic; font-weight: 400; font-size: 22px; margin: 0; }
-      #updated { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--text-dim); }
-      .panel { background: var(--ink-raised); border: 1px solid var(--hairline); border-radius: 14px; padding: 24px; }
-      button.btn { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; background: transparent; border: 1px solid var(--brass); color: var(--brass); padding: 10px 16px; border-radius: 10px; cursor: pointer; white-space: nowrap; }
-      button.btn:hover { background: var(--brass); color: var(--ink); }
-      button.btn.ghost { border-color: var(--hairline); color: var(--text-dim); }
-      button.btn.ghost:hover { border-color: var(--text-dim); background: transparent; color: var(--parchment); }
-      button.btn.small { padding: 6px 10px; font-size: 11px; }
-      .alerts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
-      .alert-form { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; margin-bottom: 14px; }
-      .alert-form input, .alert-form select { background: var(--ink); border: 1px solid var(--hairline); color: var(--parchment); font-family: "IBM Plex Mono", monospace; font-size: 12px; padding: 8px; border-radius: 8px; min-width: 0; }
-      ul.alert-list { list-style: none; margin: 0; padding: 0; font-family: "IBM Plex Mono", monospace; font-size: 12px; }
-      ul.alert-list li { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-top: 1px solid var(--hairline); }
-      .empty-hint { color: var(--text-dim); font-size: 12px; font-family: "IBM Plex Mono", monospace; }
-      .leaderboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-      .pack-card { position: relative; border: 1px solid var(--hairline); border-radius: 16px; overflow: hidden; min-height: 340px; display: flex; flex-direction: column; justify-content: flex-end; }
-      .pack-card.leader { border-color: var(--brass); }
-      .pack-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; }
-      .pack-body { position: relative; z-index: 2; background: linear-gradient(to top, rgba(18, 20, 28, 0.95), rgba(18, 20, 28, 0.6)); padding: 18px; }
-      .pack-top-row { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
-      .pack-art { width: 56px; height: 56px; object-fit: contain; }
-      .rank { font-family: "IBM Plex Mono", monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 0.1em; }
-      .rank.leader-tag { color: var(--brass); }
-      .pack-name { font-family: "Instrument Serif", serif; font-size: 20px; margin: 2px 0; }
-      .ratio { font-family: "IBM Plex Mono", monospace; font-size: 30px; font-weight: 600; color: var(--signal); }
-      .ratio-label { font-size: 10px; color: var(--text-dim); margin-bottom: 10px; }
-      .pack-meta { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--text-dim); display: flex; justify-content: space-between; border-top: 1px solid var(--hairline); padding-top: 10px; flex-wrap: wrap; gap: 4px; }
-      .top-prize { color: var(--brass); }
-      .featured-card-img { position: absolute; top: 12px; right: 12px; width: 44px; border-radius: 8px; border: 1px solid var(--brass); z-index: 3; }
-      canvas { max-height: 340px; }
-      .empty { color: var(--text-dim); font-family: "IBM Plex Mono", monospace; font-size: 13px; text-align: center; padding: 60px 0; }
-      .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
-      .chip { font-family: "IBM Plex Mono", monospace; font-size: 11px; padding: 6px 12px; border-radius: 20px; border: 1px solid var(--hairline); color: var(--text-dim); cursor: pointer; user-select: none; }
-      .chip.active { border-color: var(--signal); color: var(--signal); }
-      .filter-row { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
-      .filter-row input { background: var(--ink); border: 1px solid var(--hairline); color: var(--parchment); font-family: "IBM Plex Mono", monospace; font-size: 12px; padding: 8px 10px; border-radius: 8px; width: 140px; }
-      html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-      table { width: 100%; border-collapse: collapse; font-family: "IBM Plex Mono", monospace; font-size: 12px; }
-      th { text-align: left; color: var(--text-dim); font-weight: 500; font-size: 12px; padding: 8px; border-bottom: 1px solid var(--hairline); cursor: pointer; white-space: nowrap; }
-      th:hover { color: var(--parchment); }
-      td { padding: 8px; border-bottom: 1px solid var(--hairline); white-space: nowrap; }
-      tbody tr:nth-child(even) td { background: rgba(255, 255, 255, 0.035); }
-      tr:hover td { background: rgba(255, 255, 255, 0.07); }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--ink);
+        color: var(--parchment);
+        font-family: "Inter", sans-serif;
+        min-height: 100vh;
+      }
+      .ticker {
+        display: flex;
+        overflow: hidden;
+        border-bottom: 1px solid var(--hairline);
+        background: var(--ink-raised);
+        white-space: nowrap;
+      }
+      .ticker-track {
+        display: flex;
+        gap: 48px;
+        padding: 10px 24px;
+        animation: scroll 20s linear infinite;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        letter-spacing: 0.04em;
+      }
+      .ticker-track span.up {
+        color: var(--signal);
+      }
+      .ticker-track span.slug {
+        color: var(--text-dim);
+        text-transform: uppercase;
+        margin-right: 8px;
+      }
+      @keyframes scroll {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+      main {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 20px 24px 80px;
+      }
+      header.page-head {
+        margin-bottom: 40px;
+        border-bottom: 1px solid var(--hairline);
+        padding-bottom: 28px;
+      }
+      .eyebrow {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--brass);
+        margin-bottom: 12px;
+      }
+      h1 {
+        font-family: "Instrument Serif", serif;
+        font-style: italic;
+        font-size: 42px;
+        font-weight: 400;
+        margin: 0 0 10px;
+      }
+      .subhead {
+        color: var(--text-dim);
+        font-size: 14px;
+        max-width: 560px;
+        line-height: 1.5;
+      }
+      section {
+        margin-bottom: 48px;
+      }
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 18px;
+      }
+      .section-head h2 {
+        font-family: "Instrument Serif", serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 22px;
+        margin: 0;
+      }
+      #updated {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        color: var(--text-dim);
+      }
+      .panel {
+        background: var(--ink-raised);
+        border: 1px solid var(--hairline);
+        border-radius: 14px;
+        padding: 24px;
+      }
+      button.btn {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        background: transparent;
+        border: 1px solid var(--brass);
+        color: var(--brass);
+        padding: 10px 16px;
+        border-radius: 10px;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      button.btn:hover {
+        background: var(--brass);
+        color: var(--ink);
+      }
+      button.btn.ghost {
+        border-color: var(--hairline);
+        color: var(--text-dim);
+      }
+      button.btn.ghost:hover {
+        border-color: var(--text-dim);
+        background: transparent;
+        color: var(--parchment);
+      }
+      button.btn.small {
+        padding: 6px 10px;
+        font-size: 11px;
+      }
+      .alerts-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 16px;
+      }
+      .alert-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr auto;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      .alert-form input,
+      .alert-form select {
+        background: var(--ink);
+        border: 1px solid var(--hairline);
+        color: var(--parchment);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        padding: 8px;
+        border-radius: 8px;
+        min-width: 0;
+      }
+      ul.alert-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+      }
+      ul.alert-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-top: 1px solid var(--hairline);
+      }
+      .empty-hint {
+        color: var(--text-dim);
+        font-size: 12px;
+        font-family: "IBM Plex Mono", monospace;
+      }
+      .leaderboard {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+      .pack-card {
+        position: relative;
+        border: 1px solid var(--hairline);
+        border-radius: 16px;
+        overflow: hidden;
+        min-height: 340px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+      .pack-card.leader {
+        border-color: var(--brass);
+      }
+      .pack-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.35;
+      }
+      .pack-body {
+        position: relative;
+        z-index: 2;
+        background: linear-gradient(
+          to top,
+          rgba(18, 20, 28, 0.95),
+          rgba(18, 20, 28, 0.6)
+        );
+        padding: 18px;
+      }
+      .pack-top-row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .pack-art {
+        width: 56px;
+        height: 56px;
+        object-fit: contain;
+      }
+      .rank {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10px;
+        color: var(--text-dim);
+        letter-spacing: 0.1em;
+      }
+      .rank.leader-tag {
+        color: var(--brass);
+      }
+      .pack-name {
+        font-family: "Instrument Serif", serif;
+        font-size: 20px;
+        margin: 2px 0;
+      }
+      .ratio {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 30px;
+        font-weight: 600;
+        color: var(--signal);
+      }
+      .ratio-label {
+        font-size: 10px;
+        color: var(--text-dim);
+        margin-bottom: 10px;
+      }
+      .pack-meta {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        color: var(--text-dim);
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid var(--hairline);
+        padding-top: 10px;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+      .top-prize {
+        color: var(--brass);
+      }
+      .featured-card-img {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 44px;
+        border-radius: 8px;
+        border: 1px solid var(--brass);
+        z-index: 3;
+      }
+      canvas {
+        max-height: 340px;
+      }
+      .empty {
+        color: var(--text-dim);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        text-align: center;
+        padding: 60px 0;
+      }
+      .chips {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+      }
+      .chip {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        padding: 6px 12px;
+        border-radius: 20px;
+        border: 1px solid var(--hairline);
+        color: var(--text-dim);
+        cursor: pointer;
+        user-select: none;
+      }
+      .chip.active {
+        border-color: var(--signal);
+        color: var(--signal);
+      }
+      .filter-row {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+      }
+      .filter-row input {
+        background: var(--ink);
+        border: 1px solid var(--hairline);
+        color: var(--parchment);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        width: 140px;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+      }
+      th {
+        text-align: left;
+        color: var(--text-dim);
+        font-weight: 500;
+        font-size: 12px;
+        padding: 8px;
+        border-bottom: 1px solid var(--hairline);
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      th:hover {
+        color: var(--parchment);
+      }
+      td {
+        padding: 8px;
+        border-bottom: 1px solid var(--hairline);
+        white-space: nowrap;
+      }
+      tbody tr:nth-child(even) td {
+        background: rgba(255, 255, 255, 0.035);
+      }
+      tr:hover td {
+        background: rgba(255, 255, 255, 0.07);
+      }
       @media (max-width: 640px) {
-        .table-wrap { -webkit-overflow-scrolling: touch; }
-        th:first-child, td:first-child {
+        .table-wrap {
+          -webkit-overflow-scrolling: touch;
+        }
+        th:first-child,
+        td:first-child {
           position: sticky;
           left: 0;
           z-index: 2;
@@ -91,62 +384,154 @@
           white-space: nowrap;
           background: #1a1d28;
         }
-        tbody tr:nth-child(even) td:first-child { background: #20232f; }
+        tbody tr:nth-child(even) td:first-child {
+          background: #20232f;
+        }
       }
-      .below-fmv { color: var(--signal); }
-      .above-fmv { color: var(--alert); }
-      .table-wrap { overflow-x: auto; }
-      .disclaimer { margin-top: 8px; font-size: 12px; color: var(--text-dim); border-top: 1px solid var(--hairline); padding-top: 16px; line-height: 1.6; }
+      .below-fmv {
+        color: var(--signal);
+      }
+      .above-fmv {
+        color: var(--alert);
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+      .disclaimer {
+        margin-top: 8px;
+        font-size: 12px;
+        color: var(--text-dim);
+        border-top: 1px solid var(--hairline);
+        padding-top: 16px;
+        line-height: 1.6;
+      }
       @media (max-width: 900px) {
-        .leaderboard { grid-template-columns: 1fr; }
-        .alerts-grid { grid-template-columns: 1fr; }
-        .alert-form { grid-template-columns: 1fr 1fr; }
+        .leaderboard {
+          grid-template-columns: 1fr;
+        }
+        .alerts-grid {
+          grid-template-columns: 1fr;
+        }
+        .alert-form {
+          grid-template-columns: 1fr 1fr;
+        }
       }
       /* tighter breakpoint — 900px's 2-column layout still overflows ~380px phones */
       @media (max-width: 480px) {
-        .alert-form { grid-template-columns: 1fr; }
-        .alert-form button.btn.small { width: 100%; }
+        .alert-form {
+          grid-template-columns: 1fr;
+        }
+        .alert-form button.btn.small {
+          width: 100%;
+        }
       }
 
       /* header restructure */
-      .header-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 24px; }
-      .logo { height: 32px; width: auto; display: block; flex-shrink: 0; }
-      .wallet-control { position: relative; }
-      .wallet-btn.connected { color: var(--signal); border-color: var(--signal); }
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+      .logo {
+        height: 32px;
+        width: auto;
+        display: block;
+        flex-shrink: 0;
+      }
+      .wallet-control {
+        position: relative;
+      }
+      .wallet-btn.connected {
+        color: var(--signal);
+        border-color: var(--signal);
+      }
       .wallet-popover {
-        position: absolute; top: calc(100% + 8px); right: 0;
-        background: var(--ink-raised); border: 1px solid var(--hairline); border-radius: 12px;
-        padding: 12px; display: flex; gap: 8px; z-index: 20; min-width: 280px;
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        background: var(--ink-raised);
+        border: 1px solid var(--hairline);
+        border-radius: 12px;
+        padding: 12px;
+        display: flex;
+        gap: 8px;
+        z-index: 20;
+        min-width: 280px;
       }
       .wallet-popover input {
-        flex: 1; min-width: 0; background: var(--ink); border: 1px solid var(--hairline);
-        color: var(--parchment); font-family: "IBM Plex Mono", monospace; font-size: 12px;
-        padding: 8px 10px; border-radius: 8px;
+        flex: 1;
+        min-width: 0;
+        background: var(--ink);
+        border: 1px solid var(--hairline);
+        color: var(--parchment);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        padding: 8px 10px;
+        border-radius: 8px;
       }
       @media (max-width: 480px) {
-        .wallet-popover { right: -16px; min-width: 240px; }
+        .wallet-popover {
+          right: -16px;
+          min-width: 240px;
+        }
       }
 
       /* add-alert toggle */
-      .subsection-head { display: flex; justify-content: space-between; align-items: center; }
-      .add-alert-btn {
-        width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--brass);
-        color: var(--brass); background: transparent; font-family: "IBM Plex Mono", monospace;
-        font-size: 14px; line-height: 1; cursor: pointer;
+      .subsection-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
-      .tg-lock-hint { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--text-dim); }
+      .add-alert-btn {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 1px solid var(--brass);
+        color: var(--brass);
+        background: transparent;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 14px;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .tg-lock-hint {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        color: var(--text-dim);
+      }
 
       /* success modal */
       .modal-overlay {
-        position: fixed; inset: 0; background: rgba(10, 12, 22, 0.75);
-        display: flex; align-items: center; justify-content: center; z-index: 50;
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 12, 22, 0.75);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 50;
       }
       .modal-box {
-        background: var(--ink-raised); border: 1px solid var(--brass); border-radius: 14px;
-        padding: 28px; max-width: 320px; text-align: center;
+        background: var(--ink-raised);
+        border: 1px solid var(--brass);
+        border-radius: 14px;
+        padding: 28px;
+        max-width: 320px;
+        text-align: center;
       }
-      .modal-box h3 { font-family: "Instrument Serif", serif; font-style: italic; font-size: 22px; margin: 0 0 8px; color: var(--brass); }
-      .modal-box p { color: var(--text-dim); font-size: 13px; margin: 0 0 18px; }
+      .modal-box h3 {
+        font-family: "Instrument Serif", serif;
+        font-style: italic;
+        font-size: 22px;
+        margin: 0 0 8px;
+        color: var(--brass);
+      }
+      .modal-box p {
+        color: var(--text-dim);
+        font-size: 13px;
+        margin: 0 0 18px;
+      }
     </style>
   </head>
   <body>
@@ -157,16 +542,29 @@
         <div class="header-row">
           <img src="aether-l.PNG" alt="Aether Scanner" class="logo" />
           <div class="wallet-control">
-            <button class="btn wallet-btn" id="walletBtn">Connect Wallet</button>
-            <div class="wallet-popover" id="walletPopover" style="display: none">
-              <input type="text" id="walletInput" placeholder="0x... your Renaiss address" />
+            <button class="btn wallet-btn" id="walletBtn">
+              Connect Wallet
+            </button>
+            <div
+              class="wallet-popover"
+              id="walletPopover"
+              style="display: none"
+            >
+              <input
+                type="text"
+                id="walletInput"
+                placeholder="0x... your Renaiss address"
+              />
               <button class="btn small" id="walletSubmitBtn">Connect</button>
             </div>
           </div>
         </div>
         <div class="eyebrow">Live Trading Screener</div>
         <h1>Pack Intelligence</h1>
-        <p class="subhead">Personalized marketplace alerts and live pack EV tracking for Renaiss collectors.</p>
+        <p class="subhead">
+          Personalized marketplace alerts and live pack EV tracking for Renaiss
+          collectors.
+        </p>
       </header>
 
       <section class="panel" id="alertsPanel" style="display: none">
@@ -175,34 +573,63 @@
           <div>
             <div class="subsection-head">
               <strong style="font-size: 13px">Marketplace Watchlists</strong>
-              <button class="add-alert-btn" id="toggleWatchFormBtn" style="display: none">+</button>
+              <button
+                class="add-alert-btn"
+                id="toggleWatchFormBtn"
+                style="display: none"
+              >
+                +
+              </button>
             </div>
-            <div class="alert-form" id="watchForm" style="display: none; margin-top: 10px">
+            <div
+              class="alert-form"
+              id="watchForm"
+              style="display: none; margin-top: 10px"
+            >
               <input type="text" id="wlSet" placeholder="set (optional)" />
               <input type="number" id="wlGrade" placeholder="grade min" />
               <input type="number" id="wlPrice" placeholder="price max" />
               <button class="btn small" id="addWatchBtn">Add</button>
             </div>
             <ul class="alert-list" id="watchList"></ul>
-            <p class="tg-lock-hint" id="watchLockHint" style="display: none">Link Telegram to add alerts</p>
+            <p class="tg-lock-hint" id="watchLockHint" style="display: none">
+              Link Telegram to add alerts
+            </p>
           </div>
           <div>
             <div class="subsection-head">
               <strong style="font-size: 13px">Pack EV Alerts</strong>
-              <button class="add-alert-btn" id="togglePackFormBtn" style="display: none">+</button>
+              <button
+                class="add-alert-btn"
+                id="togglePackFormBtn"
+                style="display: none"
+              >
+                +
+              </button>
             </div>
-            <div class="alert-form" id="packForm" style="display: none; margin-top: 10px">
+            <div
+              class="alert-form"
+              id="packForm"
+              style="display: none; margin-top: 10px"
+            >
               <select id="paSlug">
                 <option value="eden-pack">Eden Pack</option>
                 <option value="omega">OMEGA</option>
                 <option value="renacrypt-pack">RenaCrypt Pack</option>
               </select>
-              <input type="number" id="paRatio" placeholder="above ratio" step="0.01" />
+              <input
+                type="number"
+                id="paRatio"
+                placeholder="above ratio"
+                step="0.01"
+              />
               <span></span>
               <button class="btn small" id="addPackAlertBtn">Add</button>
             </div>
             <ul class="alert-list" id="packAlertList"></ul>
-            <p class="tg-lock-hint" id="packLockHint" style="display: none">Link Telegram to add alerts</p>
+            <p class="tg-lock-hint" id="packLockHint" style="display: none">
+              Link Telegram to add alerts
+            </p>
           </div>
         </div>
         <div style="margin-top: 16px">
@@ -214,9 +641,11 @@
                 height="16"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                style="margin-right:8px; vertical-align:middle;"
+                style="margin-right: 8px; vertical-align: middle"
               >
-                <path d="M9.04 15.57l-.39 5.49c.56 0 .81-.24 1.1-.53l2.64-2.52 5.47 4c1 .55 1.71.26 1.96-.92l3.56-16.67h.01c.3-1.39-.5-1.93-1.47-1.57L1.36 10.8c-1.35.53-1.33 1.28-.23 1.62l5.25 1.64L18.56 6.5c.57-.38 1.09-.17.66.21L9.04 15.57z"/>
+                <path
+                  d="M9.04 15.57l-.39 5.49c.56 0 .81-.24 1.1-.53l2.64-2.52 5.47 4c1 .55 1.71.26 1.96-.92l3.56-16.67h.01c.3-1.39-.5-1.93-1.47-1.57L1.36 10.8c-1.35.53-1.33 1.28-.23 1.62l5.25 1.64L18.56 6.5c.57-.38 1.09-.17.66.21L9.04 15.57z"
+                />
               </svg>
               Link Telegram
             </button>
@@ -243,7 +672,9 @@
           <span id="updated"></span>
         </div>
         <canvas id="evChart"></canvas>
-        <div id="chartEmpty" class="empty" style="display: none">Not enough history yet — the tracker is still collecting snapshots.</div>
+        <div id="chartEmpty" class="empty" style="display: none">
+          Not enough history yet — the tracker is still collecting snapshots.
+        </div>
       </section>
 
       <section class="panel">
@@ -272,19 +703,42 @@
                 <th data-sort="year">Year</th>
               </tr>
             </thead>
-            <tbody id="screenerBody"><tr><td colspan="7" class="empty-hint" style="padding: 20px 8px;">Loading marketplace data...</td></tr></tbody>
+            <tbody id="screenerBody">
+              <tr>
+                <td colspan="7" class="empty-hint" style="padding: 20px 8px">
+                  Loading marketplace data...
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </section>
 
-      <p class="disclaimer">Expected value figures are platform-reported estimates based on public drop rates, not capital guarantees. Pull distribution variance applies. Always check live platform metadata on <a href="https://www.renaiss.xyz/" target="_blank" rel="noopener" style="color: var(--brass)">renaiss.xyz</a> before committing balances.</p>
+      <p class="disclaimer">
+        Expected value figures are platform-reported estimates based on public
+        drop rates, not capital guarantees. Pull distribution variance applies.
+        Always check live platform metadata on
+        <a
+          href="https://www.renaiss.xyz/"
+          target="_blank"
+          rel="noopener"
+          style="color: var(--brass)"
+          >renaiss.xyz</a
+        >
+        before committing balances.
+      </p>
     </main>
 
     <script>
       const API_BASE = window.location.origin;
       const BOT_USERNAME = "aether_scanner_bot";
+      const WALLET_STORAGE_KEY = "aether_wallet";
 
-      const PACK_COLORS = { "eden-pack": "#c9a227", omega: "#3fa796", "renacrypt-pack": "#c1443c" };
+      const PACK_COLORS = {
+        "eden-pack": "#c9a227",
+        omega: "#3fa796",
+        "renacrypt-pack": "#c1443c",
+      };
       const PACK_ASSETS = {
         "eden-pack": {
           bg: "https://8nothtoc5ds7a0x3.public.blob.vercel-storage.com/packs/eden/bg.mp4",
@@ -319,27 +773,47 @@
 
       function renderTicker(packs) {
         const track = document.getElementById("tickerTrack");
-        const items = packs.map((p) => `<span><span class="slug">${p.slug}</span><span class="up">${p.evRatio ?? "—"}x</span></span>`);
+        const items = packs.map(
+          (p) =>
+            `<span><span class="slug">${p.slug}</span><span class="up">${
+              p.evRatio ?? "—"
+            }x</span></span>`
+        );
         track.innerHTML = items.join("") + items.join("");
       }
 
       function renderLeaderboard(packs) {
-        const sorted = [...packs].sort((a, b) => (b.evRatio || 0) - (a.evRatio || 0));
+        const sorted = [...packs].sort(
+          (a, b) => (b.evRatio || 0) - (a.evRatio || 0)
+        );
         const board = document.getElementById("leaderboard");
-        board.innerHTML = sorted.map((p, i) => {
-          const assets = PACK_ASSETS[p.slug] || {};
-          const bgTag = assets.bgIsVideo
-            ? `<video class="pack-bg" src="${assets.bg}" autoplay loop muted playsinline onerror="this.style.display='none'"></video>`
-            : `<img class="pack-bg" src="${assets.bg || ""}" onerror="this.style.display='none'">`;
-          return `
+        board.innerHTML = sorted
+          .map((p, i) => {
+            const assets = PACK_ASSETS[p.slug] || {};
+            const bgTag = assets.bgIsVideo
+              ? `<video class="pack-bg" src="${assets.bg}" autoplay loop muted playsinline onerror="this.style.display='none'"></video>`
+              : `<img class="pack-bg" src="${
+                  assets.bg || ""
+                }" onerror="this.style.display='none'">`;
+            return `
     <div class="pack-card ${i === 0 ? "leader" : ""}">
       ${bgTag}
-      ${assets.card ? `<img class="featured-card-img" src="${assets.card}" onerror="this.style.display='none'">` : ""}
+      ${
+        assets.card
+          ? `<img class="featured-card-img" src="${assets.card}" onerror="this.style.display='none'">`
+          : ""
+      }
       <div class="pack-body">
         <div class="pack-top-row">
-          ${assets.art ? `<img class="pack-art" src="${assets.art}" onerror="this.style.display='none'">` : ""}
+          ${
+            assets.art
+              ? `<img class="pack-art" src="${assets.art}" onerror="this.style.display='none'">`
+              : ""
+          }
           <div>
-            <div class="rank ${i === 0 ? "leader-tag" : ""}">${i === 0 ? "BEST VALUE" : "RANK " + (i + 1)}</div>
+            <div class="rank ${i === 0 ? "leader-tag" : ""}">${
+              i === 0 ? "BEST VALUE" : "RANK " + (i + 1)
+            }</div>
             <div class="pack-name">${p.name}</div>
           </div>
         </div>
@@ -348,11 +822,14 @@
         <div class="pack-meta">
           <span>PRICE ${p.priceUsdt} USDT</span>
           <span>EV $${(p.evUsd || 0).toLocaleString()}</span>
-          <span class="top-prize">TOP PRIZE $${(p.featuredCardFmvUsd || 0).toLocaleString()}</span>
+          <span class="top-prize">TOP PRIZE $${(
+            p.featuredCardFmvUsd || 0
+          ).toLocaleString()}</span>
         </div>
       </div>
     </div>`;
-        }).join("");
+          })
+          .join("");
       }
 
       function renderChart(history) {
@@ -373,9 +850,16 @@
         canvas.style.display = "block";
         empty.style.display = "none";
 
-        const longest = slugs.reduce((a, b) => (bySlug[a].length > bySlug[b].length ? a : b));
+        const longest = slugs.reduce((a, b) =>
+          bySlug[a].length > bySlug[b].length ? a : b
+        );
         const labels = bySlug[longest].map((p) =>
-          new Date(p.timestamp).toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })
+          new Date(p.timestamp).toLocaleString(undefined, {
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })
         );
 
         const datasets = slugs.map((slug) => ({
@@ -395,35 +879,77 @@
             responsive: true,
             interaction: { mode: "index", intersect: false },
             scales: {
-              x: { grid: { color: "#2a2d3a" }, ticks: { color: "#8b8f9e", font: { family: "IBM Plex Mono", size: 10 }, maxRotation: 0, autoSkip: true } },
-              y: { grid: { color: "#2a2d3a" }, ticks: { color: "#8b8f9e", font: { family: "IBM Plex Mono", size: 10 } } },
+              x: {
+                grid: { color: "#2a2d3a" },
+                ticks: {
+                  color: "#8b8f9e",
+                  font: { family: "IBM Plex Mono", size: 10 },
+                  maxRotation: 0,
+                  autoSkip: true,
+                },
+              },
+              y: {
+                grid: { color: "#2a2d3a" },
+                ticks: {
+                  color: "#8b8f9e",
+                  font: { family: "IBM Plex Mono", size: 10 },
+                },
+              },
             },
-            plugins: { legend: { labels: { color: "#e7e2d8", font: { family: "Inter", size: 12 } } } },
+            plugins: {
+              legend: {
+                labels: {
+                  color: "#e7e2d8",
+                  font: { family: "Inter", size: 12 },
+                },
+              },
+            },
           },
         });
       }
 
       function vsFmv(listing) {
         if (!listing.askPriceUSDT || !listing.fmvPriceUSD) return null;
-        return ((listing.askPriceUSDT - listing.fmvPriceUSD) / listing.fmvPriceUSD) * 100;
+        return (
+          ((listing.askPriceUSDT - listing.fmvPriceUSD) / listing.fmvPriceUSD) *
+          100
+        );
       }
 
       function renderScreener() {
         let rows = [...latestMarketplace];
-        if (activeGradings.size > 0) rows = rows.filter((r) => activeGradings.has(r.gradingCompany));
-        const setFilter = document.getElementById("filterSet").value.trim().toLowerCase();
-        if (setFilter) rows = rows.filter((r) => (r.set || "").toLowerCase().includes(setFilter));
-        const gradeMin = Number(document.getElementById("filterGradeMin").value);
-        if (gradeMin) rows = rows.filter((r) => (r.gradeNumber || 0) >= gradeMin);
-        const priceMax = Number(document.getElementById("filterPriceMax").value);
-        if (priceMax) rows = rows.filter((r) => (r.askPriceUSDT || Infinity) <= priceMax);
+        if (activeGradings.size > 0)
+          rows = rows.filter((r) => activeGradings.has(r.gradingCompany));
+        const setFilter = document
+          .getElementById("filterSet")
+          .value.trim()
+          .toLowerCase();
+        if (setFilter)
+          rows = rows.filter((r) =>
+            (r.set || "").toLowerCase().includes(setFilter)
+          );
+        const gradeMin = Number(
+          document.getElementById("filterGradeMin").value
+        );
+        if (gradeMin)
+          rows = rows.filter((r) => (r.gradeNumber || 0) >= gradeMin);
+        const priceMax = Number(
+          document.getElementById("filterPriceMax").value
+        );
+        if (priceMax)
+          rows = rows.filter((r) => (r.askPriceUSDT || Infinity) <= priceMax);
 
         rows.sort((a, b) => {
           let av = sortState.key === "vsFmv" ? vsFmv(a) : a[sortState.key];
           let bv = sortState.key === "vsFmv" ? vsFmv(b) : b[sortState.key];
-          if (av === null || av === undefined) av = sortState.dir === "asc" ? Infinity : -Infinity;
-          if (bv === null || bv === undefined) bv = sortState.dir === "asc" ? Infinity : -Infinity;
-          if (typeof av === "string") return sortState.dir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av);
+          if (av === null || av === undefined)
+            av = sortState.dir === "asc" ? Infinity : -Infinity;
+          if (bv === null || bv === undefined)
+            bv = sortState.dir === "asc" ? Infinity : -Infinity;
+          if (typeof av === "string")
+            return sortState.dir === "asc"
+              ? av.localeCompare(bv)
+              : bv.localeCompare(av);
           return sortState.dir === "asc" ? av - bv : bv - av;
         });
 
@@ -432,13 +958,19 @@
           body.innerHTML = `<tr><td colspan="7" class="empty-hint" style="padding: 20px 8px;">No marketplace data loaded yet — waiting on the next poll cycle, or the last poll may have failed. Check server logs if this persists.</td></tr>`;
           return;
         }
-        body.innerHTML = rows.map((r) => {
-          const diff = vsFmv(r);
-          const diffText = diff === null ? "—" : `${diff > 0 ? "+" : ""}${diff.toFixed(1)}%`;
-          const diffClass = diff === null ? "" : diff < 0 ? "below-fmv" : "above-fmv";
-          return `
+        body.innerHTML =
+          rows
+            .map((r) => {
+              const diff = vsFmv(r);
+              const diffText =
+                diff === null
+                  ? "—"
+                  : `${diff > 0 ? "+" : ""}${diff.toFixed(1)}%`;
+              const diffClass =
+                diff === null ? "" : diff < 0 ? "below-fmv" : "above-fmv";
+              return `
       <tr>
-        <td title="${r.name || ''}">${r.name || "Unknown"}</td>
+        <td title="${r.name || ""}">${r.name || "Unknown"}</td>
         <td>${r.set || "—"}</td>
         <td>${r.grade || "—"}</td>
         <td>${r.askPriceUSDT ?? "—"}</td>
@@ -446,15 +978,22 @@
         <td class="${diffClass}">${diffText}</td>
         <td>${r.year || "—"}</td>
       </tr>`;
-        }).join("") || `<tr><td colspan="7" class="empty-hint">No listings match these filters.</td></tr>`;
+            })
+            .join("") ||
+          `<tr><td colspan="7" class="empty-hint">No listings match these filters.</td></tr>`;
       }
 
       document.getElementById("gradingChips").addEventListener("click", (e) => {
         const chip = e.target.closest(".chip");
         if (!chip) return;
         const val = chip.dataset.grading;
-        if (activeGradings.has(val)) { activeGradings.delete(val); chip.classList.remove("active"); }
-        else { activeGradings.add(val); chip.classList.add("active"); }
+        if (activeGradings.has(val)) {
+          activeGradings.delete(val);
+          chip.classList.remove("active");
+        } else {
+          activeGradings.add(val);
+          chip.classList.add("active");
+        }
         renderScreener();
       });
       ["filterSet", "filterGradeMin", "filterPriceMax"].forEach((id) =>
@@ -463,39 +1002,52 @@
       document.querySelectorAll("th[data-sort]").forEach((th) =>
         th.addEventListener("click", () => {
           const key = th.dataset.sort;
-          sortState.dir = sortState.key === key && sortState.dir === "asc" ? "desc" : "asc";
+          sortState.dir =
+            sortState.key === key && sortState.dir === "asc" ? "desc" : "asc";
           sortState.key = key;
           renderScreener();
         })
       );
 
-      // ---- wallet connect (popover-driven) ----
-
       function truncateAddr(addr) {
-        return addr.length > 10 ? `${addr.slice(0, 6)}…${addr.slice(-4)}` : addr;
+        return addr.length > 10
+          ? `${addr.slice(0, 6)}…${addr.slice(-4)}`
+          : addr;
       }
 
       document.getElementById("walletBtn").addEventListener("click", () => {
-        if (currentWallet) return; // already connected, button just displays address
+        if (currentWallet) {
+          currentWallet = null;
+          localStorage.removeItem(WALLET_STORAGE_KEY);
+          const btn = document.getElementById("walletBtn");
+          btn.textContent = "Connect Wallet";
+          btn.classList.remove("connected");
+          document.getElementById("alertsPanel").style.display = "none";
+          return;
+        }
         const pop = document.getElementById("walletPopover");
         pop.style.display = pop.style.display === "none" ? "flex" : "none";
       });
 
-      document.getElementById("walletSubmitBtn").addEventListener("click", async () => {
-        const wallet = document.getElementById("walletInput").value.trim();
-        if (!wallet) return;
-        await connectWallet(wallet);
-      });
+      document
+        .getElementById("walletSubmitBtn")
+        .addEventListener("click", async () => {
+          const wallet = document.getElementById("walletInput").value.trim();
+          if (!wallet) return;
+          await connectWallet(wallet);
+        });
 
       async function connectWallet(wallet) {
         currentWallet = wallet;
+        localStorage.setItem(WALLET_STORAGE_KEY, wallet);
         document.getElementById("walletPopover").style.display = "none";
         const btn = document.getElementById("walletBtn");
         btn.textContent = truncateAddr(wallet);
         btn.classList.add("connected");
         document.getElementById("alertsPanel").style.display = "block";
-        document.getElementById("telegramLink").href = `https://t.me/${BOT_USERNAME}?start=${wallet}`;
-
+        document.getElementById(
+          "telegramLink"
+        ).href = `https://t.me/${BOT_USERNAME}?start=${wallet}`;
         await checkTelegramStatus();
         await loadWalletAlerts();
       }
@@ -507,21 +1059,33 @@
         } catch {
           tgLinked = false;
         }
-        document.getElementById("toggleWatchFormBtn").style.display = tgLinked ? "inline-flex" : "none";
-        document.getElementById("togglePackFormBtn").style.display = tgLinked ? "inline-flex" : "none";
-        document.getElementById("watchLockHint").style.display = tgLinked ? "none" : "block";
-        document.getElementById("packLockHint").style.display = tgLinked ? "none" : "block";
+        document.getElementById("toggleWatchFormBtn").style.display = tgLinked
+          ? "inline-flex"
+          : "none";
+        document.getElementById("togglePackFormBtn").style.display = tgLinked
+          ? "inline-flex"
+          : "none";
+        document.getElementById("watchLockHint").style.display = tgLinked
+          ? "none"
+          : "block";
+        document.getElementById("packLockHint").style.display = tgLinked
+          ? "none"
+          : "block";
         return tgLinked;
       }
 
-      document.getElementById("toggleWatchFormBtn").addEventListener("click", () => {
-        const f = document.getElementById("watchForm");
-        f.style.display = f.style.display === "none" ? "grid" : "none";
-      });
-      document.getElementById("togglePackFormBtn").addEventListener("click", () => {
-        const f = document.getElementById("packForm");
-        f.style.display = f.style.display === "none" ? "grid" : "none";
-      });
+      document
+        .getElementById("toggleWatchFormBtn")
+        .addEventListener("click", () => {
+          const f = document.getElementById("watchForm");
+          f.style.display = f.style.display === "none" ? "grid" : "none";
+        });
+      document
+        .getElementById("togglePackFormBtn")
+        .addEventListener("click", () => {
+          const f = document.getElementById("packForm");
+          f.style.display = f.style.display === "none" ? "grid" : "none";
+        });
 
       document.getElementById("telegramBtn").addEventListener("click", () => {
         if (tgPollInterval) return; // already polling
@@ -533,7 +1097,8 @@
             clearInterval(tgPollInterval);
             tgPollInterval = null;
             document.getElementById("successModal").style.display = "flex";
-          } else if (attempts >= 20) { // stop after ~2 min at 6s intervals
+          } else if (attempts >= 20) {
+            // stop after ~2 min at 6s intervals
             clearInterval(tgPollInterval);
             tgPollInterval = null;
           }
@@ -549,50 +1114,77 @@
       async function loadWalletAlerts() {
         if (!currentWallet) return;
         const watches = await fetchJSON(`/api/watchlist/${currentWallet}`);
-        document.getElementById("watchList").innerHTML = watches.map((w) => `
-    <li><span>${w.set || "any set"} · grade≥${w.gradeMin || "-"} · price≤${w.priceMax || "-"}</span>
-    <button class="btn small ghost" onclick="removeWatch('${w.id}')">Remove</button></li>
-  `).join("") || `<li class="empty-hint">No watches yet.</li>`;
+        document.getElementById("watchList").innerHTML =
+          watches
+            .map(
+              (w) => `
+    <li><span>${w.set || "any set"} · grade≥${w.gradeMin || "-"} · price≤${
+                w.priceMax || "-"
+              }</span>
+    <button class="btn small ghost" onclick="removeWatch('${
+      w.id
+    }')">Remove</button></li>
+  `
+            )
+            .join("") || `<li class="empty-hint">No watches yet.</li>`;
 
-        const packAlerts = await fetchJSON(`/api/pack-alerts/${currentWallet}`).catch(() => []);
+        const packAlerts = await fetchJSON(
+          `/api/pack-alerts/${currentWallet}`
+        ).catch(() => []);
         document.getElementById("packAlertList").innerHTML = packAlerts.length
-          ? packAlerts.map((a) => `<li><span>${a.slug} ≥ ${a.aboveRatio}x</span>
-      <button class="btn small ghost" onclick="removePackAlert('${a.id}')">Remove</button></li>`).join("")
+          ? packAlerts
+              .map(
+                (a) => `<li><span>${a.slug} ≥ ${a.aboveRatio}x</span>
+      <button class="btn small ghost" onclick="removePackAlert('${a.id}')">Remove</button></li>`
+              )
+              .join("")
           : `<li class="empty-hint">No pack alerts yet.</li>`;
       }
 
       async function removeWatch(id) {
-        await fetchJSON(`/api/watchlist/${currentWallet}/${id}`, { method: "DELETE" });
+        await fetchJSON(`/api/watchlist/${currentWallet}/${id}`, {
+          method: "DELETE",
+        });
         loadWalletAlerts();
       }
       async function removePackAlert(id) {
-        await fetchJSON(`/api/pack-alerts/${currentWallet}/${id}`, { method: "DELETE" });
+        await fetchJSON(`/api/pack-alerts/${currentWallet}/${id}`, {
+          method: "DELETE",
+        });
         loadWalletAlerts();
       }
 
-      document.getElementById("addWatchBtn").addEventListener("click", async () => {
-        if (!currentWallet) return;
-        const set = document.getElementById("wlSet").value.trim();
-        const gradeMin = Number(document.getElementById("wlGrade").value) || undefined;
-        const priceMax = Number(document.getElementById("wlPrice").value) || undefined;
-        await fetchJSON(`/api/watchlist/${currentWallet}`, {
-          method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ set: set || undefined, gradeMin, priceMax }),
+      document
+        .getElementById("addWatchBtn")
+        .addEventListener("click", async () => {
+          if (!currentWallet) return;
+          const set = document.getElementById("wlSet").value.trim();
+          const gradeMin =
+            Number(document.getElementById("wlGrade").value) || undefined;
+          const priceMax =
+            Number(document.getElementById("wlPrice").value) || undefined;
+          await fetchJSON(`/api/watchlist/${currentWallet}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ set: set || undefined, gradeMin, priceMax }),
+          });
+          loadWalletAlerts();
         });
-        loadWalletAlerts();
-      });
 
-      document.getElementById("addPackAlertBtn").addEventListener("click", async () => {
-        if (!currentWallet) return;
-        const slug = document.getElementById("paSlug").value;
-        const aboveRatio = Number(document.getElementById("paRatio").value);
-        if (!aboveRatio) return;
-        await fetchJSON(`/api/pack-alerts/${currentWallet}`, {
-          method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ slug, aboveRatio }),
+      document
+        .getElementById("addPackAlertBtn")
+        .addEventListener("click", async () => {
+          if (!currentWallet) return;
+          const slug = document.getElementById("paSlug").value;
+          const aboveRatio = Number(document.getElementById("paRatio").value);
+          if (!aboveRatio) return;
+          await fetchJSON(`/api/pack-alerts/${currentWallet}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ slug, aboveRatio }),
+          });
+          loadWalletAlerts();
         });
-        loadWalletAlerts();
-      });
 
       // ---- market data poll ----
 
@@ -603,7 +1195,11 @@
           fetchJSON("/api/marketplace"),
         ]);
         try {
-          if (packs.length) { renderTicker(packs); renderLeaderboard(packs); renderChart(history); }
+          if (packs.length) {
+            renderTicker(packs);
+            renderLeaderboard(packs);
+            renderChart(history);
+          }
         } catch (err) {
           console.error("pack section render failed:", err);
         }
@@ -613,7 +1209,13 @@
         } catch (err) {
           console.error("marketplace screener render failed:", err);
         }
-        document.getElementById("updated").textContent = "updated " + new Date().toLocaleTimeString();
+        document.getElementById("updated").textContent =
+          "updated " + new Date().toLocaleTimeString();
+      }
+
+      const savedWallet = localStorage.getItem(WALLET_STORAGE_KEY);
+      if (savedWallet) {
+        connectWallet(savedWallet);
       }
 
       refresh();

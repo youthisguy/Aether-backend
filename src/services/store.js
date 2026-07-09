@@ -1,15 +1,25 @@
-const fs = require('fs');
-const path = require('path');
-const config = require('../config');
+const fs = require("fs");
+const path = require("path");
+const config = require("../config");
 
 let cache = null;
+
+function getWatchlist(wallet) {
+  const entry = getWallet(wallet);
+  return entry ? entry.watches : [];
+}
+
+function getPackAlerts(wallet) {
+  const entry = getWallet(wallet);
+  return entry ? entry.packAlerts : [];
+}
 
 function load() {
   if (cache) return cache;
   try {
-    cache = JSON.parse(fs.readFileSync(config.STORE_PATH, 'utf8'));
+    cache = JSON.parse(fs.readFileSync(config.STORE_PATH, "utf8"));
   } catch (err) {
-    if (err.code === 'ENOENT') cache = {};
+    if (err.code === "ENOENT") cache = {};
     else throw err;
   }
   return cache;
@@ -22,7 +32,8 @@ function persist() {
 
 function ensureWallet(wallet) {
   const data = load();
-  if (!data[wallet]) data[wallet] = { telegramChatId: null, watches: [], packAlerts: [] };
+  if (!data[wallet])
+    data[wallet] = { telegramChatId: null, watches: [], packAlerts: [] };
   if (!data[wallet].packAlerts) data[wallet].packAlerts = [];
   return data[wallet];
 }
@@ -82,6 +93,15 @@ function getAllWallets() {
 }
 
 module.exports = {
-  ensureWallet, getWallet, linkTelegram, addWatch, removeWatch,
-  addPackAlert, updatePackAlert, removePackAlert, getAllWallets,
+  ensureWallet,
+  getWallet,
+  linkTelegram,
+  addWatch,
+  removeWatch,
+  addPackAlert,
+  updatePackAlert,
+  removePackAlert,
+  getAllWallets,
+  getWatchlist,
+  getPackAlerts,
 };

@@ -29,7 +29,6 @@ async function notifyPackAlert(walletEntry, pack, alert) {
     `�� Price: ${pack.priceUsdt} USDT`,
     `📊 EV: $${pack.evUsd}`,
     ``,
-    `⚠️ _Estimates only, not a guarantee. Pull variance applies._`,
   ].join('\n');
   try {
     await telegramBot.telegram.sendMessage(walletEntry.telegramChatId, text, { parse_mode: 'Markdown' });
