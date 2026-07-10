@@ -58,5 +58,85 @@
     "evUsd": 95,
     "featuredCardFmvUsd": 2415,
     "evRatio": 1.08
+  },
+  {
+    "timestamp": "2026-07-10T09:34:04.036Z",
+    "slug": "champion-pack",
+    "name": "Champion Pack",
+    "stage": "active",
+    "priceUsdt": 100,
+    "evUsd": 105.44,
+    "featuredCardFmvUsd": 3750,
+    "evRatio": 1.05
+  },
+  {
+    "timestamp": "2026-07-10T09:34:04.036Z",
+    "slug": "eden-pack",
+    "name": "Eden Pack",
+    "stage": "active",
+    "priceUsdt": 150,
+    "evUsd": 155,
+    "featuredCardFmvUsd": 4434,
+    "evRatio": 1.03
+  },
+  {
+    "timestamp": "2026-07-10T09:34:04.036Z",
+    "slug": "omega",
+    "name": "OMEGA",
+    "stage": "active",
+    "priceUsdt": 48,
+    "evUsd": 51.84,
+    "featuredCardFmvUsd": 1532,
+    "evRatio": 1.08
+  },
+  {
+    "timestamp": "2026-07-10T09:34:04.036Z",
+    "slug": "renacrypt-pack",
+    "name": "RenaCrypt Pack",
+    "stage": "active",
+    "priceUsdt": 88,
+    "evUsd": 95,
+    "featuredCardFmvUsd": 2415,
+    "evRatio": 1.08
+  },
+  {
+    "timestamp": "2026-07-10T10:03:57.178Z",
+    "slug": "champion-pack",
+    "name": "Champion Pack",
+    "stage": "active",
+    "priceUsdt": 100,
+    "evUsd": 105.44,
+    "featuredCardFmvUsd": 3750,
+    "evRatio": 1.05
+  },
+  {
+    "timestamp": "2026-07-10T10:03:57.178Z",
+    "slug": "eden-pack",
+    "name": "Eden Pack",
+    "stage": "active",
+    "priceUsdt": 150,
+    "evUsd": 155,
+    "featuredCardFmvUsd": 4434,
+    "evRatio": 1.03
+  },
+  {
+    "timestamp": "2026-07-10T10:03:57.178Z",
+    "slug": "omega",
+    "name": "OMEGA",
+    "stage": "active",
+    "priceUsdt": 48,
+    "evUsd": 51.84,
+    "featuredCardFmvUsd": 1532,
+    "evRatio": 1.08
+  },
+  {
+    "timestamp": "2026-07-10T10:03:57.178Z",
+    "slug": "renacrypt-pack",
+    "name": "RenaCrypt Pack",
+    "stage": "active",
+    "priceUsdt": 88,
+    "evUsd": 95,
+    "featuredCardFmvUsd": 2415,
+    "evRatio": 1.08
   }
 ]

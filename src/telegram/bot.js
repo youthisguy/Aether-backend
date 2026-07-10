@@ -20,18 +20,18 @@ const WELCOME_MESSAGE =
   function getMainMenuMessage(wallet) {
     return (
       `👋 *Welcome to Aether Scanner*\n\n` +
-      `Track Renaiss packs, build watchlists, and receive Telegram alerts.\n\n` +
+      `Track Renaiss packs, build watchlists, and receive alerts.\n\n` +
   
       `📈 *Pack Leaderboard*\n` +
       `View the latest live EV rankings for all packs.\n\n` +
   
       `🔔 *Watchlist*\n` +
-      `Create filters for cards you're interested in.\n` +
+      `Create filters for cards you're interested in.\n\n` +
  
       `🚨 *Pack Alerts*\n` +
       `Get notified when a pack's EV ratio exceeds your chosen value.\n\n` +
 
-      `${wallet ? `` : 'Link your wallet to enable watchlists and alerts.\n'}` +
+      `${wallet ? '' : '❌ _Link your wallet to enable watchlists and alerts._\n'}` +
   
       `🙋 *Need help?*\n` +
       `> 🌐 [Renaiss Website](https://www.renaiss.xyz/)\n` +

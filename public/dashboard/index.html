@@ -7,9 +7,14 @@
     <link rel="icon" type="image/png" href="aether-l.PNG" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+    <script
+      defer
+      src="https://cloud.umami.is/script.js"
+      data-website-id="63164986-3841-4e49-a04e-4571a5a61489"
+    ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <style>
       :root {
@@ -67,7 +72,7 @@
       main {
         max-width: 1080px;
         margin: 0 auto;
-        padding: 20px 24px 80px;
+        padding: 40px 24px 80px;
       }
       .header-row {
         display: flex;
@@ -92,7 +97,7 @@
         margin-bottom: 12px;
       }
       h1 {
-        font-family: "Instrument Serif", serif;
+        font-family: "Cormorant Garamond", serif;
         font-style: italic;
         font-size: 42px;
         font-weight: 400;
@@ -114,7 +119,7 @@
         margin-bottom: 18px;
       }
       .section-head h2 {
-        font-family: "Instrument Serif", serif;
+        font-family: "Cormorant Garamond", serif;
         font-style: italic;
         font-weight: 400;
         font-size: 22px;
@@ -260,7 +265,7 @@
         color: var(--brass);
       }
       .pack-name {
-        font-family: "Instrument Serif", serif;
+        font-family: "Cormorant Garamond", serif;
         font-size: 20px;
         margin: 2px 0;
       }
@@ -529,7 +534,7 @@
         text-align: center;
       }
       .modal-box h3 {
-        font-family: "Instrument Serif", serif;
+        font-family: "Cormorant Garamond", serif;
         font-style: italic;
         font-size: 22px;
         margin: 0 0 8px;
@@ -625,6 +630,7 @@
                 <option value="eden-pack">Eden Pack</option>
                 <option value="omega">OMEGA</option>
                 <option value="renacrypt-pack">RenaCrypt Pack</option>
+                <option value="champion-pack">Champion Pack</option>
               </select>
               <input
                 type="number"
@@ -747,6 +753,7 @@
         "eden-pack": "#c9a227",
         omega: "#3fa796",
         "renacrypt-pack": "#c1443c",
+        "champion-pack": "#6b7cff",
       };
       const PACK_ASSETS = {
         "eden-pack": {
@@ -765,8 +772,13 @@
           art: "https://8nothtoc5ds7a0x3.public.blob.vercel-storage.com/packs/renacrypt_new/pack.gif",
           card: "https://8nothtoc5ds7a0x3.public.blob.vercel-storage.com/pokemon-cards/PSA86870380/card.jpg",
         },
+        "champion-pack": {
+          bg: "https://8nothtoc5ds7a0x3.public.blob.vercel-storage.com/packs/champion/bg.mp4",
+          bgIsVideo: true,
+          art: "https://8nothtoc5ds7a0x3.public.blob.vercel-storage.com/packs/champion/pack%20rotate.gif",
+          card: "https://8nothtoc5ds7a0x3.public.blob.vercel-storage.com/pokemon-cards/PSA63231843/card.jpg",
+        },
       };
-
       let chart = null;
       let currentWallet = null;
       let latestMarketplace = [];
