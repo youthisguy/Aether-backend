@@ -10,6 +10,21 @@ Telegram bot + live dashboard for the Renaiss collectibles marketplace, built on
 - **Telegram Bot**: [https://t.me/aether_scanner_bot](https://t.me/aether_scanner_bot)
 - **Live Dashboard**: [https://aether-backend-vs0i.onrender.com/dashboard/](https://aether-backend-vs0i.onrender.com/dashboard/)
 
+## Screenshots
+
+<table>
+  <tr>
+    <td><img src="./assets/screenshots/1.png" width="300" alt="Hero"/></td>
+    <td><img src="./assets/screenshots/2.png" width="300" alt="EV Chart"/></td>
+    <td><img src="./assets/screenshots/3.png" width="300" alt="Add Alerts"/></td>
+  </tr>
+  <tr>
+    <td align="center">Hero</td>
+    <td align="center">EV Ratio Chart</td>
+    <td align="center">Add Alerts</td>
+  </tr>
+</table>
+
 ## How to Use
 
 Launch the bot with the `/start` command, then:
