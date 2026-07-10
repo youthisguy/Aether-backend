@@ -17,6 +17,28 @@ const WELCOME_MESSAGE =
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
   }
   
+  function getMainMenuMessage(wallet) {
+    return (
+      `👋 *Welcome to Aether Scanner*\n\n` +
+      `Track Renaiss packs, build watchlists, and receive Telegram alerts.\n\n` +
+  
+      `📈 *Pack Leaderboard*\n` +
+      `View the latest live EV rankings for all packs.\n\n` +
+  
+      `🔔 *Watchlist*\n` +
+      `Create filters for cards you're interested in.\n` +
+ 
+      `🚨 *Pack Alerts*\n` +
+      `Get notified when a pack's EV ratio exceeds your chosen value.\n\n` +
+
+      `${wallet ? `` : 'Link your wallet to enable watchlists and alerts.\n'}` +
+  
+      `🙋 *Need help?*\n` +
+      `> 🌐 [Renaiss Website](https://www.renaiss.xyz/)\n` +
+      `> 💬 [Renaiss Discord](https://discord.com/invite/renaiss)`
+    );
+  }
+
   function mainMenu(wallet) {
     return Markup.inlineKeyboard([
       [
@@ -26,7 +48,7 @@ const WELCOME_MESSAGE =
         ),
       ],
       [Markup.button.callback('📈 Pack leaderboard', 'menu:packs')],
-      [Markup.button.callback('👀 Watchlist', 'menu:watchlist')],
+      [Markup.button.callback('🔔 Watchlist', 'menu:watchlist')],
       [Markup.button.callback('🚨 Pack alerts', 'menu:packalerts')],
     ]);
   }
@@ -76,16 +98,38 @@ function createBot() {
   // ---- /start (handles deep-link wallet payload from the webapp too) ----
   bot.start((ctx) => {
     const payload = ctx.startPayload;
+  
     if (payload) {
       store.linkTelegram(payload, ctx.chat.id);
       clearAwaiting(ctx.chat.id);
+  
       return ctx.replyWithMarkdown(
-        `✅ Linked wallet \`${payload}\` to this chat.\n\nYou'll get alerts here from now on.`,
+        `✅ Linked wallet \`${payload}\` to this chat.\n\n` +
+        getMainMenuMessage(payload),
         mainMenu(payload)
       );
     }
+  
     const wallet = getWalletForChat(ctx.chat.id);
-    ctx.replyWithMarkdown(WELCOME_MESSAGE, mainMenu(wallet));
+  
+    ctx.replyWithMarkdown(
+      getMainMenuMessage(wallet),
+      mainMenu(wallet)
+    );
+  });
+  
+  bot.action('menu:main', async (ctx) => {
+    await ctx.answerCbQuery();
+  
+    const wallet = getWalletForChat(ctx.chat.id);
+  
+    await ctx.editMessageText(
+      getMainMenuMessage(wallet),
+      {
+        parse_mode: 'Markdown',
+        ...mainMenu(wallet)
+      }
+    );
   });
 
   bot.command('cancel', (ctx) => {
@@ -96,14 +140,22 @@ function createBot() {
   // ---- main menu ----
   bot.action('menu:main', async (ctx) => {
     await ctx.answerCbQuery();
+  
     const wallet = getWalletForChat(ctx.chat.id);
-    ctx.editMessageText('Main menu:', mainMenu(wallet));
+  
+    await ctx.editMessageText(
+      getMainMenuMessage(wallet),
+      {
+        parse_mode: 'Markdown',
+        ...mainMenu(wallet),
+      }
+    );
   });
 
   bot.action('menu:link', async (ctx) => {
     await ctx.answerCbQuery();
     setAwaiting(ctx.chat.id, 'link');
-    ctx.reply('Send me the wallet address you want to link.');
+    ctx.reply('Send the wallet address you want to link.');
   });
 
   bot.action('menu:packs', async (ctx) => {

@@ -69,6 +69,15 @@
         margin: 0 auto;
         padding: 20px 24px 80px;
       }
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--hairline);
+        background: var(--ink);
+      }
       header.page-head {
         margin-bottom: 40px;
         border-bottom: 1px solid var(--hairline);
@@ -432,7 +441,6 @@
         justify-content: space-between;
         align-items: center;
         gap: 16px;
-        margin-bottom: 24px;
       }
       .logo {
         height: 32px;
@@ -535,32 +543,33 @@
     </style>
   </head>
   <body>
-    <div class="ticker"><div class="ticker-track" id="tickerTrack"></div></div>
+    <div class="header-row">
+      <img src="aether-l.PNG" alt="Aether Scanner" class="logo" />
+
+      <div class="wallet-control">
+        <button class="btn wallet-btn" id="walletBtn">Connect Wallet</button>
+
+        <div class="wallet-popover" id="walletPopover" style="display: none">
+          <input
+            type="text"
+            id="walletInput"
+            placeholder="0x... your Renaiss address"
+          />
+          <button class="btn small" id="walletSubmitBtn">Connect</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ticker">
+      <div class="ticker-track" id="tickerTrack"></div>
+    </div>
 
     <main>
       <header class="page-head">
-        <div class="header-row">
-          <img src="aether-l.PNG" alt="Aether Scanner" class="logo" />
-          <div class="wallet-control">
-            <button class="btn wallet-btn" id="walletBtn">
-              Connect Wallet
-            </button>
-            <div
-              class="wallet-popover"
-              id="walletPopover"
-              style="display: none"
-            >
-              <input
-                type="text"
-                id="walletInput"
-                placeholder="0x... your Renaiss address"
-              />
-              <button class="btn small" id="walletSubmitBtn">Connect</button>
-            </div>
-          </div>
-        </div>
         <div class="eyebrow">Live Trading Screener</div>
+
         <h1>Pack Intelligence</h1>
+
         <p class="subhead">
           Personalized marketplace alerts and live pack EV tracking for Renaiss
           collectors.
