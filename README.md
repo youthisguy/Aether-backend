@@ -5,23 +5,14 @@ Telegram bot + live dashboard for the Renaiss collectibles marketplace, built on
 1. **Personalized marketplace watchlists** — get alerted only for listings matching your own set/grade/price filters, not a global feed of every deal.
 2. **Live pack EV tracking** — continuous monitoring of expected-value-per-dollar across active gacha packs, with threshold alerts and a historical chart. 
 
-## Links
-
 - **Telegram Bot**: [https://t.me/aether_scanner_bot](https://t.me/aether_scanner_bot)
 - **Live Dashboard**: [https://aether-backend-vs0i.onrender.com/dashboard/](https://aether-backend-vs0i.onrender.com/dashboard/)
-
-## Screenshots
 
 <table>
   <tr>
     <td><img src="./assets/screenshots/1.png" width="300" alt="Hero"/></td>
     <td><img src="./assets/screenshots/2.png" width="300" alt="EV Chart"/></td>
-    <td><img src="./assets/screenshots/3.png" width="300" alt="Add Alerts"/></td>
-  </tr>
-  <tr>
-    <td align="center">Hero</td>
-    <td align="center">EV Ratio Chart</td>
-    <td align="center">Add Alerts</td>
+    <td><img src="./assets/screenshots/3.png" width="300" alt="Alerts"/></td>
   </tr>
 </table>
 
@@ -31,7 +22,7 @@ Launch the bot with the `/start` command, then:
 
 - **Link / Manage Wallet** — Connect your Renaiss wallet to enable personalized alerts
 - **📊 Pack Leaderboard** — View live EV rankings
-- **👀 Watchlist** — Add, list, or remove custom filters
+- **🔔 Watchlist** — Add, list, or remove custom filters
 - **🚨 Pack Alerts** — Set EV ratio thresholds
 
 **Watchlist Example**:  
@@ -77,7 +68,7 @@ npm install
 cp .env.example .env
 ```
 
-Edit `.env` and add your Telegram Bot Token and any other required configuration.
+Edit `.env` and add your Telegram Bot Token and other required configuration.
 
 ### 4. Start the server
 

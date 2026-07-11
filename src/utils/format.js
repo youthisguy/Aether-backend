@@ -50,23 +50,22 @@ function normalizePack(raw) {
   };
 }
 
+
 // expects an already-normalized listing (see poller.js)
 function formatListingAlertText(n) {
-  const cardUrl = n.tokenId ? `https://www.renaiss.xyz/card/${n.tokenId}` : null;
   return [
-    `🚨 *NEW LISTING MATCH* 🚨`,
-    `━━━━━━━━━━━━━━━━━━`,
+`🔖 *NEW LISTING MATCH*`,
     ``,
     `📇 *${n.name || 'Unknown card'}*`,
-    n.set ? `📦 Set: ${n.set}` : null,
-    n.character ? `🎴 Character: ${n.character}` : null,
-    n.grade ? `🏅 Grade: ${n.grade} (${n.gradingCompany || ''})` : null,
-    n.askPriceUSDT !== null ? `💰 Ask: ${n.askPriceUSDT} USDT` : null,
-    n.fmvPriceUSD !== null ? `📊 FMV: $${n.fmvPriceUSD}` : null,
-    cardUrl ? `🔗 [View on Renaiss](${cardUrl})` : null,
     ``,
-    `⚠️ _Data is approximate and read-only. Always verify before trading._`,
-  ].filter(Boolean).join('\n');
+    n.set ? `📦 *Set:* ${n.set}` : null,
+    n.character ? `🎴 *Character:* ${n.character}` : null,
+    n.grade ? `🏅 *Grade:* ${n.grade}${n.gradingCompany ? ` (${n.gradingCompany})` : ''}` : null,
+    n.askPriceUSDT !== null ? `💰 *Ask:* ${n.askPriceUSDT} USDT` : null,
+    n.fmvPriceUSD !== null ? `📊 *FMV:* $${n.fmvPriceUSD}` : null,
+  ]
+    .filter((line) => line !== null)
+    .join('\n');
 }
 
 module.exports = { normalizeListing, normalizePack, formatListingAlertText, formatWeiString, parseGradeNumber };

@@ -33,7 +33,7 @@ const WELCOME_MESSAGE =
 
       `${wallet ? '' : '❌ _Link your wallet to enable watchlists and alerts._\n'}` +
   
-      `🙋 *Need help?*\n` +
+      `🙋 *Some useful links*\n` +
       `> 🌐 [Renaiss Website](https://www.renaiss.xyz/)\n` +
       `> 💬 [Renaiss Discord](https://discord.com/invite/renaiss)`
     );
